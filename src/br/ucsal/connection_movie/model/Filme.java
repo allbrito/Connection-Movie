@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Filme {
 
-    private Long id;
+    private String id;
     private String nome;
     private int duracao;
     private List<Genero> generos;
@@ -16,7 +16,7 @@ public class Filme {
     private Idioma idioma;
     private double popularidade;
 
-    public Filme(Long id, String nome, int duracao, List<Genero> generos, ClassificacaoEtaria classificacaoEtaria, Idioma idioma, double popularidade) {
+    public Filme(String id, String nome, int duracao, List<Genero> generos, ClassificacaoEtaria classificacaoEtaria, Idioma idioma, double popularidade) {
         this.id = id;
         this.nome = nome;
         this.duracao = duracao;
