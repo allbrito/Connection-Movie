@@ -81,12 +81,12 @@ public class PerfilCinefilo {
         return duracaoMaximaPreferida;
     }
 
-    public double getPesoGenero(Genero genero) {
-        return pesosGenero.getOrDefault(genero, 0.0);
-    }
-
     public List<Filme> getFilmesAssistidos() {
         return filmesAssistidos;
+    }
+
+    public Map<Genero, Double> getPesosGenero() {
+        return pesosGenero;
     }
 
     public Map<Filme, Integer> getNotas() {

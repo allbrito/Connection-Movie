@@ -20,11 +20,10 @@ public class CalculadoraScore {
 
         double score = 0;
 
-        score = scoreGenero(filme, perfil)*PESO_GENERO;
-        score = scoreDuracao(filme, perfil)*PESO_DURACAO;
-        score = scorePopularidade(filme, perfil)*PESO_POPULARIDADE;
-        score = scoreAfinidade(filme, perfil)*PESO_AFINIDADE;
-
+        score += scoreGenero(filme, perfil)*PESO_GENERO;
+        score += scoreDuracao(filme, perfil)*PESO_DURACAO;
+        score += scorePopularidade(filme, perfil)*PESO_POPULARIDADE;
+        score += scoreAfinidade(filme, perfil)*PESO_AFINIDADE;
         return score;
     }
 
@@ -32,69 +31,67 @@ public class CalculadoraScore {
 
        List<Genero> generosDoFilme = filme.getGeneros();
 
+
        if (generosDoFilme.isEmpty())
            return 0.0;
 
-       double somaDosPesosDosGeneros = generosDoFilme.stream().mapToDouble(g -> perfil.getPesoGenero(g)).sum();
+       List<Genero> generosAvaliados = generosDoFilme.stream().filter(g -> perfil.getPesosGenero().containsKey(g)).toList();
 
-       double mediaDosPesosDosGeneros = somaDosPesosDosGeneros/generosDoFilme.size();
+       if (generosAvaliados.isEmpty())
+           return 0.0;
 
-       return mediaDosPesosDosGeneros;
+       double somaDosPesosDosGeneros = generosAvaliados.stream().mapToDouble(g -> perfil.getPesosGenero().get(g)).sum();
+
+       double mediaDosPesosDosGeneros = somaDosPesosDosGeneros/generosAvaliados.size();
+
+       return mediaDosPesosDosGeneros*100;
     }
 
     private double scoreDuracao(Filme filme, PerfilCinefilo perfil) {
 
-        if (filme.getDuracao()>perfil.getDuracaoMinimaPreferida() && filme.getDuracao()>perfil.getDuracaoMaximaPreferida())
+        if (filme.getDuracao()>=perfil.getDuracaoMinimaPreferida() && filme.getDuracao()<=perfil.getDuracaoMaximaPreferida())
             return 100;
-        if (filme.getDuracao()>perfil.getDuracaoMinimaPreferida()-perfil.getDuracaoMinimaPreferida()*0.2 || filme.getDuracao()>perfil.getDuracaoMaximaPreferida()+perfil.getDuracaoMaximaPreferida()*0.2)
+        if ((filme.getDuracao()<perfil.getDuracaoMinimaPreferida() && filme.getDuracao()>=perfil.getDuracaoMinimaPreferida()-30) || (filme.getDuracao()>perfil.getDuracaoMaximaPreferida() && filme.getDuracao()<=perfil.getDuracaoMaximaPreferida()+30))
             return 50;
+
         return 0;
     }
 
     private double scorePopularidade(Filme filme, PerfilCinefilo perfil){
+
         return filme.getPopularidade();
 
     }
 
     private double scoreAfinidade(Filme filme, PerfilCinefilo perfil) {
 
-        if (filme.getGeneros() == null)
+        if (perfil.getFilmesAssistidos().isEmpty())
             return 0;
-        double mediaDasAvaliacoesDosGeneros = 0;
+
+        double somaDasMedias = 0;
+        int qntGenerosAvaliados = 0;
+
 
         for (Genero genero : filme.getGeneros()) {
 
-            List<Filme> filmesAssisitidos = perfil.getFilmesAssistidos();
-            filmesAssisitidos = filmesAssisitidos.stream().filter(f -> f.getGeneros().contains(genero)).toList();
+            List<Integer> notasDoGenero = perfil.getFilmesAssistidos().stream().filter(f -> f.getGeneros().contains(genero)).filter(f -> perfil.getNotas().containsKey(f)).map(f -> perfil.getNotas().get(f)).toList();
 
 
-            Map<Filme, Integer> notasDosFilmes = perfil.getNotas();
+            if (notasDoGenero.isEmpty())
+                continue;
 
-            List<Filme> filmesAvaliados = new ArrayList<>();
 
-            for (Filme filmeAssistido : filmesAssisitidos) {
-                if (notasDosFilmes.containsKey(filmeAssistido)){
-                    filmesAvaliados.add(filmeAssistido);
-                }
-            }
+           double mediaDoGenero = notasDoGenero.stream().mapToDouble(Integer::doubleValue).sum()/notasDoGenero.size();
 
-            double somaDasAvaliacoes = 0;
+            somaDasMedias += mediaDoGenero/5;
 
-            for (Filme filmeAvaliado : filmesAvaliados) {
-
-                double notaFormatada = notasDosFilmes.get(filmeAvaliado)/5; //Recebe a nota do filme de 1-5 e transforma em 0.0 - 1.0
-
-                somaDasAvaliacoes += notaFormatada;
-            }
-
-            double mediaDasAvaliacoesParaFilmesDoGenero = somaDasAvaliacoes/filmesAvaliados.size();
-
-            mediaDasAvaliacoesDosGeneros = mediaDasAvaliacoesParaFilmesDoGenero * 100;
+            qntGenerosAvaliados++;
         }
 
+        if (qntGenerosAvaliados==0)
+            return 0;
 
-
-        return mediaDasAvaliacoesDosGeneros;
+        return (somaDasMedias/qntGenerosAvaliados)*100;
     }
 
 
