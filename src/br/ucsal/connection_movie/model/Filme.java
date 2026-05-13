@@ -26,7 +26,7 @@ public class Filme {
         this.popularidade = popularidade;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
