@@ -54,6 +54,6 @@ public class FilmeTest {
 
         Filme filme2 = new Filme("F01", "Duna: Parte Dois", 3, generos, ClassificacaoEtaria.DEZ, Idioma.PORTUGUES, 78.0);
 
-        assertTrue(filme.equals(filme2));
+        assertEquals(filme, filme2);
     }
 }
