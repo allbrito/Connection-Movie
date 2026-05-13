@@ -1,6 +1,4 @@
-package br.ucsal.Connection_Movie.model;
-
-import java.util.List;
+package br.ucsal.connection_movie.model;
 
 public class Recomendacao {
 

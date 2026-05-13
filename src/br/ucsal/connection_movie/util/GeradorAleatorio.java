@@ -1,6 +1,6 @@
-package br.ucsal.Connection_Movie.util;
+package br.ucsal.connection_movie.util;
 
-import br.ucsal.Connection_Movie.model.Recomendacao;
+import br.ucsal.connection_movie.model.Recomendacao;
 
 import java.util.List;
 

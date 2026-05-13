@@ -1,4 +1,4 @@
-package br.ucsal.Connection_Movie.model;
+package br.ucsal.connection_movie.model;
 
 public class Usuario {
 

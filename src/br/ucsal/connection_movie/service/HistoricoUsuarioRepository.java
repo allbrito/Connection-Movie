@@ -1,8 +1,8 @@
-package br.ucsal.Connection_Movie.service;
+package br.ucsal.connection_movie.service;
 
-import br.ucsal.Connection_Movie.model.PerfilCinefilo;
-import br.ucsal.Connection_Movie.model.Recomendacao;
-import br.ucsal.Connection_Movie.model.Usuario;
+import br.ucsal.connection_movie.model.PerfilCinefilo;
+import br.ucsal.connection_movie.model.Recomendacao;
+import br.ucsal.connection_movie.model.Usuario;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
-package br.ucsal.Connection_Movie.service;
+package br.ucsal.connection_movie.service;
 
-import br.ucsal.Connection_Movie.model.*;
-import br.ucsal.Connection_Movie.model.enums.Genero;
-import br.ucsal.Connection_Movie.util.GeradorAleatorio;
+import br.ucsal.connection_movie.model.*;
+import br.ucsal.connection_movie.model.enums.Genero;
+import br.ucsal.connection_movie.util.GeradorAleatorio;
 
 import java.util.Collections;
 import java.util.Comparator;

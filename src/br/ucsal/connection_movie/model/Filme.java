@@ -1,8 +1,8 @@
-package br.ucsal.Connection_Movie.model;
+package br.ucsal.connection_movie.model;
 
-import br.ucsal.Connection_Movie.model.enums.ClassificacaoEtaria;
-import br.ucsal.Connection_Movie.model.enums.Genero;
-import br.ucsal.Connection_Movie.model.enums.Idioma;
+import br.ucsal.connection_movie.model.enums.ClassificacaoEtaria;
+import br.ucsal.connection_movie.model.enums.Genero;
+import br.ucsal.connection_movie.model.enums.Idioma;
 
 import java.util.List;
 
