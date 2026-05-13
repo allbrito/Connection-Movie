@@ -12,8 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class FilmeTest {
 
@@ -37,13 +36,13 @@ public class FilmeTest {
     @Test
     void testCriacaoDeFilmeComTodosOsAtributos() {
         assertAll("Testa se em um filme todas os atributos estão preenchidos",
-                () -> assertTrue(filme.getId()!=null),
-                () -> assertTrue(filme.getNome() != null),
+                () -> assertNotNull(filme.getId()),
+                () -> assertNotNull(filme.getNome()),
                 () -> assertTrue(filme.getDuracao() > 0),
-                () -> assertTrue(filme.getGeneros() != null),
-                () -> assertTrue(!filme.getGeneros().isEmpty()),
-                () -> assertTrue(filme.getClassificacaoEtaria()!=null),
-                () -> assertTrue(filme.getIdioma()!=null),
+                () -> assertNotNull(filme.getGeneros()),
+                () -> assertFalse(filme.getGeneros().isEmpty()),
+                () -> assertNotNull(filme.getClassificacaoEtaria()),
+                () -> assertNotNull(filme.getIdioma()),
                 () -> assertTrue(filme.getPopularidade() >= 0)
         );
     }
