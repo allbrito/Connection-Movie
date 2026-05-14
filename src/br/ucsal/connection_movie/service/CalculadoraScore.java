@@ -48,13 +48,24 @@ public class CalculadoraScore {
     }
 
     private double scoreDuracao(Filme filme, PerfilCinefilo perfil) {
+        int duracao = filme.getDuracao();
+        int min = perfil.getDuracaoMinimaPreferida();
+        int max = perfil.getDuracaoMaximaPreferida();
 
-        if (filme.getDuracao()>=perfil.getDuracaoMinimaPreferida() && filme.getDuracao()<=perfil.getDuracaoMaximaPreferida())
-            return 100;
-        if ((filme.getDuracao()<perfil.getDuracaoMinimaPreferida() && filme.getDuracao()>=perfil.getDuracaoMinimaPreferida()-30) || (filme.getDuracao()>perfil.getDuracaoMaximaPreferida() && filme.getDuracao()<=perfil.getDuracaoMaximaPreferida()+30))
-            return 50;
+        if (duracao >= min && duracao <= max) return 100;
 
-        return 0;
+        // Caso 2: Duração fora da faixa - calcular penalidade
+        int minutosForaDaFaixa;
+        if (duracao < min) {
+            minutosForaDaFaixa = min - max;
+        } else {
+            minutosForaDaFaixa = duracao - max;
+        }
+
+        double penalidade = minutosForaDaFaixa * 2.0;
+        double score = 100.0 - penalidade;
+
+        return Math.max(0.0, score);
     }
 
     private double scorePopularidade(Filme filme, PerfilCinefilo perfil){
