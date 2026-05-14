@@ -18,6 +18,14 @@ public class Recomendador {
     private CalculadoraScore calculadora;
     private FiltroFilmes filtro;
 
+    public Recomendador(CatalogoFilmesAPI catalogo, HistoricoUsuarioRepository historico, NotificadorPush notificador, GeradorAleatorio gerador, CalculadoraScore calculadora, FiltroFilmes filtro) {
+        this.catalogo = catalogo;
+        this.historico = historico;
+        this.notificador = notificador;
+        this.gerador = gerador;
+        this.calculadora = calculadora;
+        this.filtro = filtro;
+    }
 
     public List<Recomendacao> recomendar(Usuario usuario, int topN) {
 
@@ -43,7 +51,12 @@ public class Recomendador {
         List<Recomendacao> resultado = ordenarLista(recomendacoes, topN);
 
         registrarRecomendacao(usuario, resultado);
-        notificarUsuario(usuario, resultado);
+        try {
+            notificarUsuario(usuario, resultado);
+        } catch (Exception e) {
+            System.out.println("Notificaçoes indisponivies");
+        }
+
         return resultado;
 
     }

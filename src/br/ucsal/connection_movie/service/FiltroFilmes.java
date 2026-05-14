@@ -13,7 +13,7 @@ public class FiltroFilmes {
                 .filter(filme -> !perfil.jaAssistiu(filme))
                 .filter(filme -> filme.getClassificacaoEtaria().getId() <= perfil.getClassificacaoEtaria().getId())
                 .filter(filme -> perfil.getIdiomasAceitos().contains(filme.getIdioma()))
-                .filter(filme -> filme.getGeneros().stream().noneMatch(genero -> perfil.getPesoGenero(genero) == 0))
+                .filter(filme -> filme.getGeneros().stream().noneMatch(genero -> perfil.getPesosGenero().get(genero) == 0))
                 .collect(Collectors.toList());
     }
 }
