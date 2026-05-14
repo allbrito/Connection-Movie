@@ -39,6 +39,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="byte-buddy-1.14.17" level="project" />
+    <orderEntry type="library" name="byte-buddy-1.17.5" level="project" />
   </component>
 </module>

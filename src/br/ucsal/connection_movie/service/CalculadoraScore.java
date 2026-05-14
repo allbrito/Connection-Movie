@@ -38,7 +38,7 @@ public class CalculadoraScore {
        List<Genero> generosAvaliados = generosDoFilme.stream().filter(g -> perfil.getPesosGenero().containsKey(g)).toList();
 
        if (generosAvaliados.isEmpty())
-           return 0.0;
+           return 50;
 
        double somaDosPesosDosGeneros = generosAvaliados.stream().mapToDouble(g -> perfil.getPesosGenero().get(g)).sum();
 

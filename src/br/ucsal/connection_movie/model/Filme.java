@@ -57,8 +57,14 @@ public class Filme {
 
     @Override
     public boolean equals(Object obj) {
-        Filme filmeComparado = (Filme) obj;
-        return this.id.equals(filmeComparado.id);
+
+        if (this == obj) return true;
+
+
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Filme outro = (Filme) obj;
+        return Objects.equals(this.id, outro.id);
     }
 
     @Override

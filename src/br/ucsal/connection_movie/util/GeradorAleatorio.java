@@ -7,5 +7,5 @@ import java.util.List;
 public interface GeradorAleatorio {
 
     int desempatar(int min, int max);
-    List<Recomendacao> gerarAleatorio(int quantidadeFilmes);
+    List<Integer> gerarAleatorio(int quantidadeFilmes);
 }

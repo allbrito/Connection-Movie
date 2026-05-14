@@ -1,24 +1,32 @@
 package br.ucsal.connection_movie.test;
 
+import br.ucsal.connection_movie.exception.NotificacoesIndisponiveisException;
 import br.ucsal.connection_movie.model.Filme;
 import br.ucsal.connection_movie.model.PerfilCinefilo;
+import br.ucsal.connection_movie.model.Recomendacao;
 import br.ucsal.connection_movie.model.Usuario;
 import br.ucsal.connection_movie.model.enums.ClassificacaoEtaria;
 import br.ucsal.connection_movie.model.enums.Genero;
 import br.ucsal.connection_movie.model.enums.Idioma;
 import br.ucsal.connection_movie.service.*;
 import br.ucsal.connection_movie.util.GeradorAleatorio;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
+
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
 public class RecomendadorTest {
 
@@ -37,7 +45,6 @@ public class RecomendadorTest {
     private CalculadoraScore calculadora;
     private FiltroFilmes filtro;
 
-    @InjectMocks
     private Recomendador recomendador;
 
     List<Filme> filmes;
@@ -108,15 +115,40 @@ public class RecomendadorTest {
                 ClassificacaoEtaria.DOZE,
                 Idioma.INGLES,
                 84
-        ));
+        ), new Filme(
+                        "F09",
+                        "Como treinar seu dragão",
+                        110,
+                        List.of(Genero.ANIMACAO, Genero.ACAO),
+                        ClassificacaoEtaria.LIVRE,
+                        Idioma.INGLES,
+                        84
+                ), new Filme("F10",
+                        "Como treinar seu dragão 2",
+                        110,
+                        List.of(Genero.ANIMACAO, Genero.ACAO),
+                        ClassificacaoEtaria.LIVRE,
+                        Idioma.INGLES,
+                        84
+                ), new Filme(
+                        "F11",
+                        "Vingadores 2",
+                        110,
+                        List.of(Genero.FICCAO_CIENTIFICA, Genero.ACAO),
+                        ClassificacaoEtaria.LIVRE,
+                        Idioma.INGLES,
+                        84
+                )
+
+        ) ;
 
 
         // Criando o PerfilCinefilo de Maria
         perfil = new PerfilCinefilo(
-                90,                                              // duracaoMinimaPreferida
-                150,                                             // duracaoMaximaPreferida
+                90,                      // duracaoMinimaPreferida
+                150,                                        // duracaoMaximaPreferida
                 ClassificacaoEtaria.DEZESSEIS,              // classificacaoEtaria (máx 16 anos)
-                List.of(Idioma.PORTUGUES, Idioma.INGLES)         // idiomasAceitos
+                List.of(Idioma.PORTUGUES, Idioma.INGLES)    // idiomasAceitos
         );
 
         // Adicionando pesos de gênero
@@ -136,10 +168,10 @@ public class RecomendadorTest {
         perfil.adicionarNota(filmes.get(6), 2);
 
         user = new Usuario(
-                "usr-001",   // id
+                "usr-001",// id
                 "Maria",     // nome
                 28,          // idade
-                perfil, // perfil
+                perfil,      // perfil
                 true         // notificacoesHabilitadas
         );
     }
@@ -147,15 +179,83 @@ public class RecomendadorTest {
 
     @Test
     void testDevolveListRespeitandoTamanhoPedido() {
+
         when(catalogo.buscarTodos()).thenReturn(filmes);
 
-        recomendador.recomendar(user, 5);
+        List<Recomendacao> resultado = recomendador.recomendar(user, 5);
+        System.out.println("Filme | Duração | Score final");
+        for (Recomendacao r : resultado) {
+            System.out.printf("%s -- %s | %d | %.1f%n", r.filme().getId(), r.filme().getNome(), r.filme().getDuracao(), r.score());
+        }
+        assertEquals(5, resultado.size());
     }
 
-//    @Test
-//    void testNotificacoesIndisponiveis() {
-//
-//        when(notificador.enviar();)
-//        Assertions.assertDoesNotThrow();
-//    }
+    @Test
+    void testDevolveListVaziaSeCatologoEstiverVazio() {
+        when(catalogo.buscarTodos()).thenReturn(new ArrayList<>());
+
+        List<Recomendacao> resultado = recomendador.recomendar(user, 5);
+
+        assertEquals(0, resultado.size());
+    }
+
+    @Test
+    void testDevolveListVaziaSeCatologoEstiverIndisponivel() {
+        assertDoesNotThrow(() -> recomendador.recomendar(user, 5));
+    }
+
+    @Test
+    void testNotificacoesIndisponiveis() {
+        when(catalogo.buscarTodos()).thenReturn(filmes);
+        assertDoesNotThrow(() -> recomendador.recomendar(user, 5));
+
+    }
+
+    @Test
+    void testRegistrarRecomendacaoEChamadoAposRecomendar() {
+        when(catalogo.buscarTodos()).thenReturn(filmes);
+
+        List<Recomendacao> resultado = recomendador.recomendar(user, 5);
+
+        verify(historico).registrarRecomendacao(user, anyList());
+    }
+
+    @Test
+    void testNofificacoesSaoChamadasSeLigado() {
+        when(catalogo.buscarTodos()).thenReturn(filmes);
+        List<Recomendacao> resultado = recomendador.recomendar(user, 5);
+        verify(notificador).enviar(eq(user), anyList());
+    }
+    @Test
+    void testNofificacoesNaoSaoChamadasSeLigado() {
+        user.setNotificacoesHabilitadas(false);
+
+        when(catalogo.buscarTodos()).thenReturn(filmes);
+        List<Recomendacao> resultado = recomendador.recomendar(user, 5);
+        verify(notificador, times(0)).enviar(eq(user), anyList());
+    }
+
+    @Test
+    void testGerarAleatorioDevolveListaDoConjuntoFiltrado() {
+        when(catalogo.buscarTodos()).thenReturn(filmes);
+        when(gerador.gerarAleatorio(eq(filmes.size()-1))).thenReturn(List.of(5,2,3,4,6));
+
+        List<Recomendacao> resultado = recomendador.recomendarAleatorio();
+
+        Filme[] filmesRecebidos = resultado.stream().map(Recomendacao::filme).toArray(Filme[]::new);
+        Filme[] filmesEsperados = {filmes.get(5), filmes.get(2), filmes.get(3), filmes.get(4), filmes.get(6)};
+
+        assertArrayEquals(filmesEsperados, filmesRecebidos);
+
+    }
+
+    @Test
+    void testGerarAleatorioDesempata() {
+        when(catalogo.buscarTodos()).thenReturn(filmes);
+        when(gerador.desempatar(anyInt(), anyInt())).thenReturn(1);
+        List<Recomendacao> resultado = recomendador.recomendar(user, 5);
+
+        assertEquals(5, resultado.size());
+    }
+
 }

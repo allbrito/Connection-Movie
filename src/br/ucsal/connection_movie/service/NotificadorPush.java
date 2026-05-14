@@ -8,5 +8,5 @@ import java.util.List;
 public interface NotificadorPush {
 
 
-    public void enviar(Usuario usuario, List<Recomendacao> recomendacoes);
+    void enviar(Usuario usuario, List<Recomendacao> recomendacoes);
 }

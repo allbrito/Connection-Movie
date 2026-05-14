@@ -68,4 +68,22 @@ public class FiltroFilmesTest {
         filmes.add(filme);
         assertFalse(filtroFilmes.filtrar(filmes, perfilCinefilo).contains(filme));
     }
+
+    @Test
+    @DisplayName("Testa se filmes com genero não aprovado estão na lista")
+    void testFilmeComGeneroNaoAprovadoNoFiltro() {
+        perfilCinefilo.adicionarPeso(Genero.TERROR, 0.0);
+        generos.add(Genero.TERROR);
+        filme = new Filme("F01", "Duna: Parte Um", 3, generos, ClassificacaoEtaria.DEZ, Idioma.PORTUGUES, 78.0);
+        assertFalse(filtroFilmes.filtrar(filmes, perfilCinefilo).contains(filme));
+    }
+
+
+    @Test
+    @DisplayName("Testa se o catálogo filtrado de filmes devolve lista vazia")
+    void testFiltroComCatalogoVazioDevolveListaVazia() {
+        filmes = new ArrayList<>();
+        assertNotNull(filtroFilmes.filtrar(filmes, perfilCinefilo));
+    }
+
 }
