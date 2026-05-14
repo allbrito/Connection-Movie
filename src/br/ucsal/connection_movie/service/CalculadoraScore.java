@@ -57,7 +57,7 @@ public class CalculadoraScore {
         // Caso 2: Duração fora da faixa - calcular penalidade
         int minutosForaDaFaixa;
         if (duracao < min) {
-            minutosForaDaFaixa = min - max;
+            minutosForaDaFaixa = min - duracao;
         } else {
             minutosForaDaFaixa = duracao - max;
         }
