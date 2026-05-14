@@ -12,6 +12,8 @@ import br.ucsal.connection_movie.model.enums.Idioma;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,10 +50,16 @@ public class PerfilCinefiloTest {
         assertThrows(PesoInvalidoException.class, () -> perfilCinefilo.adicionarPeso(Genero.ACAO, 73));
     }
 
-    @Test
-    @DisplayName("Testa se lança Excecao Ao Criar Perfil Com Duracao Invalida")
-    void testLancaExcecaoAoCriarPerfilComDuracaoInvalida() {
-        assertThrows(DuracaoInvalidaException.class, () -> new PerfilCinefilo(0, 5, ClassificacaoEtaria.DEZ, idiomas));
+    @ParameterizedTest(name = "Testa se lança Excecao Ao Criar Perfil Com Duracao Invalida")
+    @CsvSource({
+            "150, 90",
+            "300, 1",
+            "61,  60",
+            "1,   0"
+    })
+    void testLancaExcecaoAoCriarPerfilComDuracaoInvalida(int minimo, int maximo) {
+        assertThrows(DuracaoInvalidaException.class,
+                () -> new PerfilCinefilo(minimo, maximo, ClassificacaoEtaria.DEZ, idiomas));
     }
 
     @Test
