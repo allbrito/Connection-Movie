@@ -2,7 +2,6 @@ package br.ucsal.connection_movie.test;
 
 import br.ucsal.connection_movie.model.Filme;
 import br.ucsal.connection_movie.model.PerfilCinefilo;
-import br.ucsal.connection_movie.model.Usuario;
 import br.ucsal.connection_movie.model.enums.ClassificacaoEtaria;
 import br.ucsal.connection_movie.model.enums.Genero;
 import br.ucsal.connection_movie.model.enums.Idioma;
@@ -90,8 +89,6 @@ public class CalculadoraScoreTest {
         perfilCinefilo.adicionarNota(filme2, 5);
 
         assertEquals(100, calculadoraScore.calcular(filme, perfilCinefilo));
-
     }
-
 }
 

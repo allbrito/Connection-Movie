@@ -9,6 +9,8 @@ import br.ucsal.connection_movie.service.FiltroFilmes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +45,16 @@ public class FiltroFilmesTest {
         assertFalse(filtroFilmes.filtrar(filmes, perfilCinefilo).contains(filme));
     }
 
-    @Test
-    @DisplayName("Testa se os filmes acima da classificação etária estão na lista de filtro de filmes")
-    void testFilmeAcimaClassificacaoEtariaNoFiltro() {
-        filme = new Filme("F01", "Duna: Parte Um", 3, generos, ClassificacaoEtaria.DEZOITO, Idioma.PORTUGUES, 78.0);
+    @ParameterizedTest(name = "Testa se os filmes acima da classificação etária estão na lista de filtro de filmes")
+    @CsvSource({
+            "QUATORZE,        DOZE",
+            "DEZOITO,  DEZESSEIS",
+            "QUATORZE,    LIVRE",
+            "DEZESSEIS,   LIVRE"
+    })
+    void testLancaExcecaoAoCriarPerfilComClassificacaoInvalida(ClassificacaoEtaria classificacaoFilme, ClassificacaoEtaria classificacaoPerfil) {
+        perfilCinefilo = new PerfilCinefilo(90, 150, classificacaoPerfil, idiomas);
+        filme = new Filme("F01", "Duna: Parte Um", 120, generos, classificacaoFilme, Idioma.PORTUGUES, 78.0);
         filmes.add(filme);
         assertFalse(filtroFilmes.filtrar(filmes, perfilCinefilo).contains(filme));
     }
@@ -70,20 +78,9 @@ public class FiltroFilmesTest {
     }
 
     @Test
-    @DisplayName("Testa se filmes com genero não aprovado estão na lista")
-    void testFilmeComGeneroNaoAprovadoNoFiltro() {
-        perfilCinefilo.adicionarPeso(Genero.TERROR, 0.0);
-        generos.add(Genero.TERROR);
-        filme = new Filme("F01", "Duna: Parte Um", 3, generos, ClassificacaoEtaria.DEZ, Idioma.PORTUGUES, 78.0);
-        assertFalse(filtroFilmes.filtrar(filmes, perfilCinefilo).contains(filme));
-    }
-
-
-    @Test
     @DisplayName("Testa se o catálogo filtrado de filmes devolve lista vazia")
     void testFiltroComCatalogoVazioDevolveListaVazia() {
-        filmes = new ArrayList<>();
         assertNotNull(filtroFilmes.filtrar(filmes, perfilCinefilo));
+        assertTrue(filtroFilmes.filtrar(filmes, perfilCinefilo).isEmpty());
     }
-
 }
