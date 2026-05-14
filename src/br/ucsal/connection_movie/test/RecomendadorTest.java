@@ -1,6 +1,6 @@
 package br.ucsal.connection_movie.test;
 
-import br.ucsal.connection_movie.exception.NotificacoesIndisponiveisException;
+
 import br.ucsal.connection_movie.model.Filme;
 import br.ucsal.connection_movie.model.PerfilCinefilo;
 import br.ucsal.connection_movie.model.Recomendacao;
@@ -10,7 +10,6 @@ import br.ucsal.connection_movie.model.enums.Genero;
 import br.ucsal.connection_movie.model.enums.Idioma;
 import br.ucsal.connection_movie.service.*;
 import br.ucsal.connection_movie.util.GeradorAleatorio;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -217,7 +216,7 @@ public class RecomendadorTest {
 
         List<Recomendacao> resultado = recomendador.recomendar(user, 5);
 
-        verify(historico).registrarRecomendacao(user, anyList());
+        verify(historico).registrarRecomendacao(eq(user), anyList());
     }
 
     @Test

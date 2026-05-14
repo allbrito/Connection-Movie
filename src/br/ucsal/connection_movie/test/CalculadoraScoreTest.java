@@ -62,6 +62,7 @@ public class CalculadoraScoreTest {
 
 
     @Test
+    @DisplayName("Testa filme com popularidade máxima")
     void testFilmeComPopularidadeMaxima() {
         generos=new ArrayList<>();
         filme = new Filme("F01", "Duna: Parte Dois", 100, generos, ClassificacaoEtaria.DEZ, Idioma.PORTUGUES, 100);
@@ -69,6 +70,7 @@ public class CalculadoraScoreTest {
     }
 
     @Test
+    @DisplayName("")
     void testFilmeComAfinidadeMaxima() {
 
         Filme filme2 = new Filme("F02", "Ela (Her)", 500, generos, ClassificacaoEtaria.DEZESSEIS, Idioma.PORTUGUES, 0);
@@ -81,6 +83,7 @@ public class CalculadoraScoreTest {
     }
 
     @Test
+    @DisplayName("")
     void testFilmeComTodosOsAtributosMaximos() {
 
         generos.add(Genero.ROMANCE);

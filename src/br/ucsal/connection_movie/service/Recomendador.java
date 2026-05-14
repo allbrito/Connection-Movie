@@ -5,8 +5,6 @@ import br.ucsal.connection_movie.exception.NotificacoesIndisponiveisException;
 import br.ucsal.connection_movie.model.*;
 import br.ucsal.connection_movie.model.enums.Genero;
 import br.ucsal.connection_movie.util.GeradorAleatorio;
-import org.junit.platform.commons.logging.Logger;
-import org.junit.platform.commons.logging.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
