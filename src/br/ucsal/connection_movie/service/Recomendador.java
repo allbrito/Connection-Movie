@@ -3,6 +3,8 @@ package br.ucsal.connection_movie.service;
 import br.ucsal.connection_movie.model.*;
 import br.ucsal.connection_movie.model.enums.Genero;
 import br.ucsal.connection_movie.util.GeradorAleatorio;
+import org.junit.platform.commons.logging.Logger;
+import org.junit.platform.commons.logging.LoggerFactory;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -75,9 +77,8 @@ public class Recomendador {
     private List<Recomendacao> ordenarLista(List<Recomendacao> recomendacoes, int topN){
         return recomendacoes.stream()
                 .sorted(Comparator
-                        .comparingDouble(Recomendacao::getScore).reversed()
-                        .thenComparingDouble(r -> -r.getFilme().getPopularidade())
-                        .thenComparingInt(r -> gerador.desempatar(0, 1)))
+                        .comparingDouble(Recomendacao::score).reversed()
+                        .thenComparingDouble(r -> -r.filme().getPopularidade()))
                 .limit(topN)
                 .collect(Collectors.toList());
     }

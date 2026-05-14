@@ -11,10 +11,10 @@ import java.util.Map;
 public class CalculadoraScore {
 
 
-    double PESO_GENERO = 0.5;
-    double PESO_DURACAO = 0.2;
-    double PESO_POPULARIDADE = 0.15;
-    double PESO_AFINIDADE = 0.15;
+    public static final double PESO_GENERO = 0.5;
+    public static final double PESO_DURACAO = 0.2;
+    public static final double PESO_POPULARIDADE = 0.15;
+    public static final double PESO_AFINIDADE = 0.15;
 
     public double calcular(Filme filme, PerfilCinefilo perfil) {
 

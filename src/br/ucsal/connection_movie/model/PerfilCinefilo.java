@@ -18,7 +18,7 @@ public class PerfilCinefilo {
     private Map<Genero, Double> pesosGenero;
     private int duracaoMinimaPreferida;
     private int duracaoMaximaPreferida;
-    private ClassificacaoEtaria ClassificacaoEtaria;
+    private ClassificacaoEtaria classificacaoEtaria;
     private List<Idioma> idiomasAceitos;
     private List<Filme> filmesAssistidos;
     private Map<Filme, Integer> notas;
@@ -34,7 +34,7 @@ public class PerfilCinefilo {
         this.pesosGenero = new HashMap<>();
         this.duracaoMinimaPreferida = duracaoMinimaPreferida;
         this.duracaoMaximaPreferida = duracaoMaximaPreferida;
-        ClassificacaoEtaria = classificacaoEtaria;
+        this.classificacaoEtaria = classificacaoEtaria;
         this.idiomasAceitos = idiomasAceitos;
         this.filmesAssistidos = new ArrayList<>();
         this.notas = new HashMap<>();
@@ -70,7 +70,7 @@ public class PerfilCinefilo {
     }
 
     public ClassificacaoEtaria getClassificacaoEtaria() {
-        return ClassificacaoEtaria;
+        return classificacaoEtaria;
     }
 
     public int getDuracaoMinimaPreferida() {

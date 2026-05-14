@@ -25,7 +25,7 @@ public class FiltroFilmesTest {
     List<Filme> filmes;
 
     @BeforeEach
-    void prepararAmbiente(){
+    void prepararAmbiente() {
         filtroFilmes = new FiltroFilmes();
         generos = new ArrayList<>();
         idiomas = new ArrayList<>();
@@ -36,7 +36,7 @@ public class FiltroFilmesTest {
 
     @Test
     @DisplayName("Testa se os filmes assistidos estão na lista de filtro de filmes")
-    void testFilmeAssistidoNoFiltro(){
+    void testFilmeAssistidoNoFiltro() {
         filme = new Filme("F01", "Duna: Parte Um", 3, generos, ClassificacaoEtaria.DEZ, Idioma.PORTUGUES, 78.0);
         filmes.add(filme);
         perfilCinefilo.marcarAssistido(filme);
@@ -45,7 +45,7 @@ public class FiltroFilmesTest {
 
     @Test
     @DisplayName("Testa se os filmes acima da classificação etária estão na lista de filtro de filmes")
-    void testFilmeAcimaClassificacaoEtariaNoFiltro(){
+    void testFilmeAcimaClassificacaoEtariaNoFiltro() {
         filme = new Filme("F01", "Duna: Parte Um", 3, generos, ClassificacaoEtaria.DEZOITO, Idioma.PORTUGUES, 78.0);
         filmes.add(filme);
         assertFalse(filtroFilmes.filtrar(filmes, perfilCinefilo).contains(filme));
@@ -53,7 +53,7 @@ public class FiltroFilmesTest {
 
     @Test
     @DisplayName("Testa se os filmes com idiomas não selecionados estão na lista de filtro de filmes")
-    void testFilmeIdiomaDiferenteNoFiltro(){
+    void testFilmeIdiomaDiferenteNoFiltro() {
         filme = new Filme("F01", "Duna: Parte Um", 3, generos, ClassificacaoEtaria.DEZ, Idioma.INGLES, 78.0);
         filmes.add(filme);
         assertFalse(filtroFilmes.filtrar(filmes, perfilCinefilo).contains(filme));

@@ -5,6 +5,7 @@ import br.ucsal.connection_movie.model.enums.Genero;
 import br.ucsal.connection_movie.model.enums.Idioma;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Filme {
 
@@ -52,5 +53,16 @@ public class Filme {
 
     public double getPopularidade() {
         return popularidade;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Filme filmeComparado = (Filme) obj;
+        return this.id.equals(filmeComparado.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
